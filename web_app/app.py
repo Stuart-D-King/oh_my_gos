@@ -11,16 +11,22 @@ app.config['UPLOAD_FOLDER'] = 'static/img/uploads/'
 RG_message = 'Ryan Gosling!'
 not_RG_message = 'NOT Ryan Gosling'
 
+RG_message_multi = 'Ryan Gosling is in the photo!'
+not_RG_message_multi = 'Ryan Gosling is NOT in the photo'
+
 # helper function to compare faces
 def compare_faces(new_img):
     ryan_gosling = np.load('data/ryan_gosling_face.npy')
 
     unknown_picture = face_recognition.load_image_file(new_img)
-    unknown_face_encoding = face_recognition.face_encodings(unknown_picture)[0]
+    unknown_face_encodings = face_recognition.face_encodings(unknown_picture)
 
-    result = face_recognition.compare_faces([ryan_gosling], unknown_face_encoding)
+    results = []
+    for face in unknown_face_encodings:
+        result = face_recognition.compare_faces([ryan_gosling], face)
+        results.append(result[0])
 
-    return result[0]
+    return results
 
 
 # helper function
@@ -52,14 +58,19 @@ def upload_file():
 
             file.save(file_path)
 
-            result = compare_faces('{}'.format(file_path))
+            results = compare_faces('{}'.format(file_path))
             uploaded_img = '../{}'.format(file_path)
 
-            if result == True:
-                return render_template('results.html', message=RG_message, uploaded_img=uploaded_img)
+            if len(results) > 1:
+                if True in results:
+                    return render_template('results.html', message=RG_message_multi, uploaded_img=uploaded_img)
+                else:
+                    return render_template('results.html', message=not_RG_message_multi, uploaded_img=uploaded_img)
             else:
-                return render_template('results.html', message=not_RG_message, uploaded_img=uploaded_img)
-
+                if results[0] == True:
+                    return render_template('results.html', message=RG_message, uploaded_img=uploaded_img)
+                else:
+                    return render_template('results.html', message=not_RG_message, uploaded_img=uploaded_img)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8105, debug=True)
