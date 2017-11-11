@@ -17,13 +17,17 @@ def ryan_gosling_face():
 
 def compare_faces(new_img):
     ryan_gosling = np.load('ryan_gosling_face.npy')
+    ryan_gosling = np.load('data/ryan_gosling_face.npy')
 
     unknown_picture = face_recognition.load_image_file(new_img)
-    unknown_face_encoding = face_recognition.face_encodings(unknown_picture)[0]
+    unknown_face_encodings = face_recognition.face_encodings(unknown_picture)
 
-    result = face_recognition.compare_faces([ryan_gosling], unknown_face_encoding)
+    results = []
+    for face in unknown_face_encodings:
+        result = face_recognition.compare_faces([ryan_gosling], face)
+        results.append(result[0])
 
-    return result[0]
+    return results
 
 
 if __name__ == '__main__':

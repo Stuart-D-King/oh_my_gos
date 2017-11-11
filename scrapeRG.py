@@ -23,7 +23,7 @@ for idx, url in enumerate(urls[1:]):
         pic = soup_img.find('div', {'class':'mainphoto'})
         picUrl = pic.img['src']
 
-        urllib.request.urlretrieve(picUrl, 'raw_images/{}.jpg'.format(count))
+        urllib.request.urlretrieve(picUrl, 'data/raw_images/{}.jpg'.format(count))
         count += 1
 
 print('All done!')
