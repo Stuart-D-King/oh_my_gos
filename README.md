@@ -10,7 +10,7 @@ Click the image to watch a clip from [Silicon Valley](http://www.imdb.com/title/
 <!-- [![SeeFood](web_app/static/img/hotdog_not_hotdog.png)](https://www.youtube.com/watch?v=FNyi3nAuLb0) -->
 
 <a href="https://www.youtube.com/watch?v=FNyi3nAuLb0"><img src="web_app/static/img/hotdog_not_hotdog.png"
-alt="SeeFood"/></a>
+alt="SeeFood" width="75%"/></a>
 
 ### Disclaimer
 Use with caution. Boyfriend analysis often leads to sadness and disappointment.
